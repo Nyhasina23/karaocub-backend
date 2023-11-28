@@ -8,19 +8,16 @@ type KType = {
 export const createNewVideoController = async (req: Request, res: Response) => {
     try {
 
-        const { type, duration } = req.body;
-        const files: any = req.files as KType;
-        const image: string = files.image[0].originalname;
-        const url: string = files.video[0].originalname;
-        if (image && url && type && duration) {
+        const { type, duration, eventId } = req.body;
+        const url = req.file;
+        if (url && type && duration) {
 
             const newVideo = {
                 type,
-                image,
                 duration,
-                url
+                url: url?.originalname
             }
-            let response = await createNewVideoService(newVideo)
+            let response = await createNewVideoService(eventId, newVideo)
             res.status(response.httpCode!).send(response)
 
         } else {

@@ -11,9 +11,10 @@ export const createNewKaraokeController = async (req: Request, res: Response) =>
 
         const { artist, title, duration, categorieId, sousCategorieId } = req.body;
         const files: any = req.files as KType;
-        const image: string = files.image[0].originalname;
-        const url: string = files.video[0].originalname;
-        if (artist && title && url && image && duration) {
+        const image: string = files?.image ? files?.image[0]?.originalname : '';
+        const url: string = files?.video ? files?.video[0]?.originalname : '';
+        if (artist && title && image && url && duration) {
+
 
             const karaokeData: IKaraoke = {
                 artist,
@@ -33,6 +34,7 @@ export const createNewKaraokeController = async (req: Request, res: Response) =>
         }
 
     } catch (error) {
+        console.log(error)
         res.status(500).send('Unexpected error while creating karaoke')
     }
 

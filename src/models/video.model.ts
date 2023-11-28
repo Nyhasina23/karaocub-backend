@@ -5,11 +5,7 @@ const VideoSchema = new mongoose.Schema<IVideo>({
     type: {
         type: String,
         required: true,
-    },
-    image: {
-        type: String,
-        required: false,
-        default: ""
+        enum: ["GOLD", "GUEST"]
     },
     duration: {
         type: String,

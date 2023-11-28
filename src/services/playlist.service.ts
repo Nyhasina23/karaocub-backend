@@ -48,13 +48,15 @@ export const addSongToPlaylistService = async (playlistId: string, karaokeId: st
     return response
 }
 
-export const updatePlaylistService = async (playlistId: string, name: string, karaokes: string[]): Promise<ResponseDataType> => {
+export const updatePlaylistService = async (playlistId: string, name: string, karaokes: string): Promise<ResponseDataType> => {
     let response: ResponseDataType;
     try {
 
+        // karaoke data
+        // "karaokes" :"656634c6a3d8b21e9dc98404,656635b6a3d8b21e9dc98408"
         const updatedPlaylist = {
             name,
-            karaokes
+            karaokes: karaokes.split(','),
         }
 
         let playlist = await PlayListModel.findByIdAndUpdate(playlistId, {

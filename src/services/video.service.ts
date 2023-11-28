@@ -1,17 +1,20 @@
+import { EventModel } from "../models/event.model";
 import { VideoModel } from "../models/video.model";
 import { ResponseDataType, SetResponseData, SetResponseError } from "../types/response.type";
 import { IVideo } from "../types/video.type";
 
-export const createNewVideoService = async (videoData: IVideo) => {
+export const createNewVideoService = async (eventId: string, videoData: IVideo) => {
 
     let response: ResponseDataType;
     try {
         const newVideo = await VideoModel.create<IVideo>({
             type: videoData.type,
-            image: videoData.image,
             duration: videoData.duration,
             url: videoData.url
         })
+        await EventModel.findByIdAndUpdate(eventId,
+            { $push: { videos: newVideo._id } },
+            { new: true, useFindAndModify: false })
         response = SetResponseData("Video created", 200, newVideo)
 
     } catch (error) {

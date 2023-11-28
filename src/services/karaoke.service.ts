@@ -28,7 +28,7 @@ export const fetchKaraokeByCategorieService = async (categorieId: string) => {
 
     let response: ResponseDataType;
     try {
-        const karaoke = await KaraokeModel.find({ categorie: categorieId });
+        const karaoke = await KaraokeModel.find({ categorie: categorieId }).populate('categorie')
         if (karaoke) {
             response = SetResponseData("Karaoke fetched by categorie", 200, karaoke)
         } else {
@@ -44,7 +44,7 @@ export const fetchKaraokeBySousCategorieService = async (sousCategorieId: string
 
     let response: ResponseDataType;
     try {
-        const karaoke = await KaraokeModel.find({ sousCategorie: sousCategorieId });
+        const karaoke = await KaraokeModel.find({ sousCategorie: sousCategorieId }).populate('sousCategorie');
         if (karaoke) {
             response = SetResponseData("Karaoke fetched by sousCategorie", 200, karaoke)
         } else {
@@ -113,7 +113,7 @@ export const fetchAllKaraokeService = async () => {
 
     let response: ResponseDataType;
     try {
-        const karaokes = await KaraokeModel.find();
+        const karaokes = await KaraokeModel.find().populate('categorie').populate('sousCategorie');
         response = SetResponseData("ALl Karaoke fetched", 200, karaokes)
     } catch (error) {
         response = SetResponseError("Unable to fetch All Karaoke", 500, error)
